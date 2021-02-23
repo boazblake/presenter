@@ -1,5 +1,5 @@
-import { Profile, SidebarRSVP } from "Components"
-import { getTheme } from "Utils"
+import { Profile, SidebarRSVP } from "components"
+import { getTheme } from "utils"
 
 export const Sidebar = () => {
   const state = {

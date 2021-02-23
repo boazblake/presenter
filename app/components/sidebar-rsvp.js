@@ -1,5 +1,5 @@
-import { EmptyState, InviteRSVP } from "Components"
-import { getTimeFormat, getTheme, hyphenize } from "Utils"
+import { EmptyState, InviteRSVP } from "components"
+import { getTimeFormat, getTheme, hyphenize } from "utils"
 import { InfoStandardLine } from "@mithril-icons/clarity/cjs"
 
 const navToInvite = (mdl) => (invite) => {

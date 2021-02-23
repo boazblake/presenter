@@ -1,14 +1,13 @@
-import { log, hyphenize, getMyLocationTask } from "Utils"
+import { log, hyphenize, getMyLocationTask } from "utils"
 import { validateLoginTask } from "./Validations.js"
-import { HTTP, loginTask, getUserProfileTask, setUserToken } from "Http"
-import { map } from "ramda"
-import { IsLoading } from "Components"
+import { HTTP, loginTask, getProfileTask } from "http"
+import { IsLoading } from "components"
 
 const loginUser = (mdl) => (data) => {
   const onError = (errs) => {
     if (errs) {
       state.errors = errs
-      state.errorMsg(errs.message)
+      state.errorMsg(errs.error)
       state.showErrorMsg(true)
       console.log("failed - state", state)
     } else {
@@ -19,6 +18,8 @@ const loginUser = (mdl) => (data) => {
   }
 
   const onSuccess = (mdl) => (s) => {
+    console.log("s", s)
+    mdl.Calendar.state.start(mdl.User.profile.startWeekOnDay)
     state.errors = {}
     m.route.set(`/${hyphenize(mdl.User.name)}/${M().format("YYYY-MM-DD")}`)
   }
@@ -27,21 +28,8 @@ const loginUser = (mdl) => (data) => {
 
   validateLoginTask(data)
     .chain(loginTask(HTTP)(mdl))
-    .chain((user) => {
-      mdl.User = user
-      return getUserProfileTask(HTTP)(mdl)(mdl.User.objectId)
-    })
-    .map(
-      map((profile) => {
-        mdl.User.profile = profile
-        mdl.Calendar.state.start(profile.startWeekOnDay)
-        setUserToken(mdl)(mdl.User)
-      })
-    )
-    .chain((account) => {
-      mdl.User.account = account
-      return getMyLocationTask(mdl)
-    })
+    .chain(getProfileTask(HTTP)(mdl))
+    .chain(getMyLocationTask)
     .fork(onError, onSuccess(mdl))
 }
 

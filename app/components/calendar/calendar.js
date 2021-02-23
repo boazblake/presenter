@@ -1,5 +1,5 @@
 import { createCalendar, calendarDayStyle } from "./calendar-model"
-import { daysOfTheWeekFrom, firstInviteHour, hyphenize, getTheme } from "Utils"
+import { daysOfTheWeekFrom, firstInviteHour, hyphenize, getTheme } from "utils"
 import { AngleLine } from "@mithril-icons/clarity/cjs"
 
 const Navbar = () => {

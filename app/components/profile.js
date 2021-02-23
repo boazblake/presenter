@@ -1,5 +1,5 @@
-import { setUserToken, updateUserProfile, HTTP } from "Http"
-import { daysOfTheWeek, getBoundsFromLatLong } from "Utils"
+import { setUserToken, updateUserProfile, HTTP } from "http"
+import { daysOfTheWeek, getBoundsFromLatLong } from "utils"
 
 export const Profile = () => {
   const state = {

@@ -1,4 +1,4 @@
-import { Logo } from "Components"
+import { Logo } from "components"
 
 export const EmptyState = () => {
   return {

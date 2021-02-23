@@ -9,10 +9,10 @@ import {
   relateItemsToUserTask,
   unRelateItemToUserTask,
   updateBulkInvites,
-} from "Http"
+} from "http"
 
 import { traverse, head, map, propEq } from "ramda"
-import { log, getHour, getMin, getTimeFormat } from "Utils"
+import { log, getHour, getMin, getTimeFormat } from "utils"
 
 const toEventviewModel = (mdl) => ({
   hostId,

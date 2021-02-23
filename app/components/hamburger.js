@@ -1,6 +1,6 @@
 import { BellLine, BarsLine, CloseLine } from "@mithril-icons/clarity/cjs"
-import { HTTP, getInvitesByGuestIdTask } from "Http"
-import { Animate, puffOutCenter, shake, focusInContract } from "Styles"
+import { HTTP, getInvitesByGuestIdTask } from "http"
+import { Animate, puffOutCenter, shake, focusInContract } from "styles"
 
 export const Hamburger = () => {
   const load = ({ attrs: { mdl } }) => {

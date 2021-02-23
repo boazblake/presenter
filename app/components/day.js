@@ -1,4 +1,4 @@
-import { EmptyState } from "Components"
+import { EmptyState } from "components"
 import {
   getHoursInDay,
   firstInviteHour,
@@ -7,7 +7,7 @@ import {
   getTimeFormat,
   hyphenize,
   getTheme,
-} from "Utils"
+} from "utils"
 
 const navToInvite = (mdl) => (invite) => {
   mdl.Events.currentEventId(invite.eventId)

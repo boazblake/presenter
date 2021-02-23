@@ -23,7 +23,7 @@ exports.files = {
 
 exports.modules = {
   autoRequire: {
-    "app.js": ["initialize"],
+    "app.js": ["initialize.js"],
   },
 }
 
@@ -84,12 +84,12 @@ exports.paths = {
   public: "docs",
   watched: [
     "app",
-    "app/Utils",
-    "app/Styles",
-    "app/Pages",
+    "app/utils",
+    "app/styles",
+    "app/pages",
     "app/assets",
     "app/Models",
-    "app/Http",
+    "app/http",
     "app/Fp",
   ],
 }

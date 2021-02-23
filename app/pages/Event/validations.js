@@ -1,6 +1,6 @@
 import { curryN, identity, lensProp, mergeAll, pluck, max } from "ramda"
 import { Success } from "data.validation"
-import { validate, isRequired, maxLength, isUniq } from "Utils"
+import { validate, isRequired, maxLength, isUniq } from "utils"
 
 const ValidateItems = Success(curryN(2, identity))
 const ValidateGuests = Success(curryN(2, identity))

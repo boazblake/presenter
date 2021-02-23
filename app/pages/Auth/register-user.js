@@ -1,12 +1,6 @@
-import { hyphenize, getMyLocationTask } from "Utils"
+import { hyphenize, getMyLocationTask } from "utils"
 import { validateUserRegistrationTask } from "./Validations"
-import {
-  HTTP,
-  loginTask,
-  registerTask,
-  createProfileTask,
-  relateProfileToUserTask,
-} from "Http"
+import { HTTP, registerTask, createProfileTask } from "http"
 
 const data = {
   name: "",
@@ -49,7 +43,7 @@ export const registerUser = (mdl) => (data) => {
   const onError = (errors) => {
     if (errors) {
       state.errors = errors
-      state.errorMsg(errors.message)
+      state.errorMsg(errors.error)
       state.showErrorMsg(true)
       console.log("failed - state", state, errors)
     } else {
@@ -61,27 +55,14 @@ export const registerUser = (mdl) => (data) => {
 
   const onSuccess = (mdl) => (data) => {
     state.errors = null
-    sessionStorage.setItem("shindigit-user-token", mdl.User["user-token"])
-    sessionStorage.setItem("shindigit-user", JSON.stringify(mdl.User))
     m.route.set(`/${hyphenize(mdl.User.name)}/${M().format("YYYY-MM-DD")}`)
   }
+
   state.isSubmitted = true
   validateUserRegistrationTask(data)
     .chain(registerTask(HTTP)(mdl))
-    .chain((_) =>
-      loginTask(HTTP)(mdl)({
-        email: data.email,
-        password: data.password,
-      })
-        .chain((_) => createProfileTask(HTTP)(mdl))
-        .chain((profile) => {
-          mdl.User.profile = profile
-          return relateProfileToUserTask(HTTP)(mdl)(mdl.User.objectId)(
-            profile.objectId
-          )
-        })
-        .chain((_) => getMyLocationTask(mdl))
-    )
+    .chain(createProfileTask(HTTP)(mdl))
+    .chain(getMyLocationTask)
     .fork(onError, onSuccess(mdl))
 }
 
@@ -93,7 +74,7 @@ const RegisterUser = () => {
         type: "text",
         placeholder: "Full Name",
         onblur: (e) => validate(),
-        oninput: (e) => (data.name = e.target.value.trim()),
+        oninput: (e) => (data.name = e.target.value),
         value: data.name,
       }),
       state.errors && errors.name && m("span.error-field", errors.name),

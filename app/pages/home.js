@@ -1,6 +1,6 @@
-import { Calendar, Day, Editor } from "Components"
+import { Calendar, Day, Editor } from "components"
 import { dayModel } from "Models"
-import { datesAreSame, getTheme } from "Utils"
+import { datesAreSame, getTheme } from "utils"
 import {
   Animate,
   AnimatePage,
@@ -12,7 +12,7 @@ import {
   shutterInLeft,
   shutterInRight,
   shutterOutRight,
-} from "Styles"
+} from "styles"
 
 const toDayViewModel = (dayViewModel, invite) => {
   dayViewModel[`${invite.start.format("HH")}:00`].push(invite)

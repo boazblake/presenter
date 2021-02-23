@@ -1,6 +1,6 @@
-import { HTTP, locateQueryTask } from "Http"
-import { hyphenize } from "Utils"
-import { Animate, shutterOutTop } from "Styles"
+import { HTTP, locateQueryTask } from "http"
+import { hyphenize } from "utils"
+import { Animate, shutterOutTop } from "styles"
 
 const locateQuery = (mdl) => (state) => (query) => {
   const onError = (err) => {

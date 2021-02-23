@@ -1,7 +1,7 @@
 import { EventForm } from "./event-form"
-import { HTTP, createEventTask, updateEventTask } from "Http"
+import { HTTP, createEventTask, updateEventTask } from "http"
 import { validateTask } from "./validations"
-import { Animate, slideInDown, slideOutUp } from "Styles"
+import { Animate, slideInDown, slideOutUp } from "styles"
 
 export const Editor = ({ attrs: { mdl, event } }) => {
   const getData = (id) => {

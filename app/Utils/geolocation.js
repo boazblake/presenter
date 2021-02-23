@@ -1,6 +1,6 @@
 import { props, prop } from "ramda"
 import Task from "data.task"
-import { log } from "Utils"
+import { log } from "utils"
 
 const toBoundsUrlString = ({ lat_min, lon_min, lat_max, lon_max }) =>
   encodeURIComponent(`${lon_min},${lat_min},${lon_max},${lat_max}`)
@@ -24,14 +24,25 @@ export const getMyLocationTask = (mdl) =>
           .query({
             name: "geolocation",
           })
-          .then((permission) =>
+          .then((permission) => {
             // is geolocation granted?
-            permission.state === "granted"
-              ? navigator.geolocation.getCurrentPosition((pos) =>
+
+            switch (permission.state) {
+              case "granted":
+                navigator.geolocation.watchPosition((pos) => res(pos.coords))
+                break
+
+              case "prompt":
+                navigator.geolocation.getCurrentPosition((pos) =>
                   res(pos.coords)
                 )
-              : res(null)
-          )
+                break
+
+              default:
+                res(null)
+                break
+            }
+          })
       : // Permission API was not implemented
         res(mdl.Map.defaultBounds)
   )

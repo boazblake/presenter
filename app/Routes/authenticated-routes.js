@@ -1,5 +1,5 @@
-import { Layout } from "Components"
-import { Home, Event } from "Pages"
+import { Layout } from "components"
+import { Home, Event } from "pages"
 
 const AuthenticatedRoutes = [
   {

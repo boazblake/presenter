@@ -5,8 +5,8 @@ import {
   Hamburger,
   IndiPb,
   ProgressBar,
-} from "Components"
-import { Animate, createKeyframeAnimation } from "Styles"
+} from "components"
+import { Animate, createKeyframeAnimation } from "styles"
 
 const Header = () => {
   const getRoute = (mdl) => mdl.State.route.id

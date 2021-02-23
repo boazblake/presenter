@@ -1,6 +1,6 @@
 import { curryN, identity, lensProp, mergeAll } from "ramda"
 import { Success } from "data.validation"
-import { validate, isRequired, getHour, getMin } from "Utils"
+import { validate, isRequired, getHour, getMin } from "utils"
 
 const Validate = Success(curryN(5, identity))
 

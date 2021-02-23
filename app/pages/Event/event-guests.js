@@ -1,5 +1,5 @@
-import { InviteRSVP } from "Components"
-import { getTheme } from "Utils"
+import { InviteRSVP } from "components"
+import { getTheme } from "utils"
 import { propEq, compose, not, head } from "ramda"
 export const EventGuests = ({ attrs: { sendInvite } }) => {
   return {

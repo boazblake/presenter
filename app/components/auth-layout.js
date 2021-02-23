@@ -1,4 +1,4 @@
-import { Animate, focusIn, focusInContract } from "Styles"
+import { Animate, focusIn, focusInContract } from "styles"
 
 const rotateCenter = {
   "animation-name": "rotate-center",

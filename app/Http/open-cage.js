@@ -1,5 +1,5 @@
 import { path, paths, map, prop } from "ramda"
-import { log } from "Utils"
+import { log } from "utils"
 
 const toOpenCageFormat = (q) =>
   typeof q == "string"

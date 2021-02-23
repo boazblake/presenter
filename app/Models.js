@@ -1,5 +1,5 @@
-import { getHoursInDay } from "Utils"
-import { calendarModel } from "Components/calendar/calendar-model"
+import { getHoursInDay } from "utils"
+import { calendarModel } from "components/calendar/calendar-model"
 
 // const Notifications = () => {
 //   let state = {

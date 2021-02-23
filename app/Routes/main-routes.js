@@ -1,5 +1,5 @@
-import { Login, Register } from "Pages"
-import { AuthLayout } from "Components"
+import { Login, Register } from "pages"
+import { AuthLayout } from "components"
 const Routes = [
   {
     id: "login",

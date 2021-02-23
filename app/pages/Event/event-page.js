@@ -1,4 +1,4 @@
-import { jsonCopy, hyphenize, getTheme } from "Utils"
+import { jsonCopy, hyphenize, getTheme } from "utils"
 import { without, propEq, set, lensProp, traverse, find, pluck } from "ramda"
 import mapboxgl from "mapbox-gl/dist/mapbox-gl.js"
 import {
@@ -15,8 +15,8 @@ import {
   deleteCommentTask,
   updateItemTask,
   updateItemToGuestTask,
-} from "Http"
-import { Modal, Editor } from "Components"
+} from "http"
+import { Modal, Editor } from "components"
 import { WarningStandardLine } from "@mithril-icons/clarity/cjs"
 import Task from "data.task"
 import { validateItemTask, validateCommentTask } from "./validations"

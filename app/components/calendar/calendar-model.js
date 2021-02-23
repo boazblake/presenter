@@ -5,7 +5,7 @@ import {
   eachWeekOfInterval,
   parseISO,
 } from "date-fns"
-import { datesAreSame } from "Utils"
+import { datesAreSame } from "utils"
 import { weekdays } from "moment"
 
 export const isCalenderDay = (invites, day) => ({

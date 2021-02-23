@@ -1,10 +1,11 @@
-import { map } from "ramda"
+import { map, prop } from "ramda"
 import {
   findUserByEmailTask,
   relateInvitesToEventTask,
   relateInvitesToUserTask,
-} from "Http"
+} from "http"
 import Task from "data.task"
+import { log } from "utils"
 
 export const toInviteViewModel = ({
   start,
@@ -53,21 +54,21 @@ export const updateBulkInvites = (http) => (mdl) => (cond) => (update) =>
 
 export const updateInviteTask = (http) => (mdl) => (inviteId) => (invite) =>
   http.backEnd
-    .putTask(mdl)(`data/Invites/${inviteId}`)(toInviteDto(invite))
+    .putTask(mdl)(`classes/Invites/${inviteId}`)(toInviteDto(invite))
+    .map(prop("results"))
     .map(toInviteViewModel)
 
 export const getInvitesByGuestIdTask = (http) => (mdl) => (guestId) =>
   http.backEnd
-    .getTask(mdl)(
-      `data/Invites?pageSize=100&where=guestId%3D'${guestId}'&sortBy=start%20asc`
-    )
+    .getTask(mdl)(`classes/Invites?where={"guestId":"${guestId}"}`)
+    .map(prop("results"))
+    .map(log("wtf"))
     .map(map(toInviteViewModel))
 
 export const getInvitesTaskByEventId = (http) => (mdl) => (eventId) =>
   http.backEnd
-    .getTask(mdl)(
-      `data/Invites?pageSize=100&where=eventId%3D'${eventId}'&sortBy=start%20asc`
-    )
+    .getTask(mdl)(`classes/Invites?where={"eventId":"${eventId}"}`)
+    .map(prop("results"))
     .map(map(toInviteViewModel))
 
 export const sendInviteTask = (http) => (mdl) => (
@@ -113,7 +114,7 @@ export const createInviteTask = (http) => (mdl) => ({
   location,
   latlong,
 }) =>
-  http.backEnd.postTask(mdl)("data/Invites")({
+  http.backEnd.postTask(mdl)("classes/Invites")({
     eventId,
     guestId,
     hostId,
@@ -128,4 +129,4 @@ export const createInviteTask = (http) => (mdl) => ({
   })
 
 export const deleteInviteTask = (http) => (mdl) => (id) =>
-  http.backEnd.deleteTask(mdl)(`data/Invites/${id}`)
+  http.backEnd.deleteTask(mdl)(`classes/Invites/${id}`)

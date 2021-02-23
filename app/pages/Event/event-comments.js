@@ -1,4 +1,4 @@
-import { getTimeFormat, getTheme, autoFocus } from "Utils"
+import { getTimeFormat, getTheme, autoFocus } from "utils"
 import { TimesCircleLine } from "@mithril-icons/clarity/cjs"
 
 const scrollToBottom = (dom) => dom.scrollTo(0, dom.scrollHeight, "smooth")

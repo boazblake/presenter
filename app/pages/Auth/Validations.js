@@ -1,6 +1,6 @@
 import { curryN, identity, lensProp, mergeAll, prop, equals } from "ramda"
 import { Success } from "data.validation"
-import { validate, isRequired, emailFormat } from "Utils"
+import { validate, isRequired, emailFormat } from "utils"
 
 const ValidateRegistration = Success(curryN(3, identity))
 const ValidateLogin = Success(curryN(2, identity))

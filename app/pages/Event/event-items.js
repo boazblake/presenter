@@ -1,4 +1,4 @@
-import { getTheme, autoFocus } from "Utils"
+import { getTheme, autoFocus } from "utils"
 import {
   AngleLine,
   RemoveLine,

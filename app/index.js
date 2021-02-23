@@ -1,8 +1,8 @@
-import { log } from "Utils"
+import { log } from "utils"
 import App from "./App.js"
 import Model from "Models"
 import { Fp } from "Fp"
-import { getMyLocationTask } from "Utils"
+import { getMyLocationTask } from "utils"
 Fp.configure()
 
 const root = document.body

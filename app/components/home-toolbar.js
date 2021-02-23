@@ -1,4 +1,4 @@
-import { hyphenize, getTheme } from "Utils"
+import { hyphenize, getTheme } from "utils"
 
 export const HomeToolbar = ({ attrs: { mdl } }) => {
   const updateDate = (date) =>

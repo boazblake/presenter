@@ -1,18 +1,21 @@
+import { map, path } from "ramda"
+
 export const setUserToken = (mdl) => (user) => {
   sessionStorage.setItem("shindigit-user", JSON.stringify(user))
-  sessionStorage.setItem("shindigit-user-token", user["user-token"])
+  sessionStorage.setItem("shindigit-user-token", user["sessionToken"])
   mdl.State.isAuth(true)
   mdl.User = user
   return user
 }
 
+const makeTempUser = (userInput) => (dbResp) => ({ ...userInput, ...dbResp })
+//({name, email, isAdmin})=> ({sessionToken, objectId, createdAt})
+
 export const loginTask = (http) => (mdl) => ({ email, password }) =>
-  http.backEnd
-    .postTask(mdl)("users/login")({
-      login: email,
-      password: password,
-    })
-    .map(setUserToken(mdl))
+  http.backEnd.postTask(mdl)("login")({
+    username: email,
+    password: password,
+  })
 
 export const registerTask = (http) => (mdl) => ({
   name,
@@ -20,27 +23,50 @@ export const registerTask = (http) => (mdl) => ({
   password,
   isAdmin,
 }) =>
-  http.backEnd.postTask(mdl)("users/register")({
-    name,
-    email,
-    password,
-    isAdmin,
-  })
+  http.backEnd
+    .postTask(mdl)("users")({
+      name,
+      username: email,
+      password,
+      isAdmin,
+      email,
+    })
+    .map(makeTempUser({ name, email, isAdmin }))
+    .map(setUserToken(mdl))
 
-export const createProfileTask = (http) => (mdl) =>
-  http.backEnd.postTask(mdl)("data/Profiles")({
-    userId: mdl.User.objectId,
-    name: mdl.User.name,
-    email: mdl.User.email,
-    startWeekOnDay: 1,
-    use24Hrs: true,
-    isDarkTheme: true,
-    language: "en",
-    searchRadius: 20,
-  })
+const setProfile = (mdl) => (profile) => {
+  mdl.User.profile = profile
+  return mdl
+}
 
-export const getUserProfileTask = (http) => (mdl) => (id) =>
-  http.backEnd.getTask(mdl)(`data/Profiles?where=userId%3D'${id}'`)
+export const createProfileTask = (http) => (mdl) => (user) =>
+  http.backEnd
+    .postTask(mdl)("classes/Profiles")({
+      userId: mdl.User.objectId,
+      name: mdl.User.name,
+      email: mdl.User.email,
+      startWeekOnDay: 1,
+      is24Hrs: true,
+      isDarkTheme: true,
+      language: "en",
+      searchRadius: 20,
+    })
+    .map(setProfile(mdl))
+
+const getUserProfileTask = (http) => (mdl) => (id) =>
+  http.backEnd
+    .getTask(mdl)(`classes/Profiles?where={"userId":"${id}"}`)
+    .map(path(["results", 0]))
+    .map((profile) => {
+      mdl.User.profile = profile
+      setUserToken(mdl)(mdl.User)
+      return mdl
+    })
+
+export const getProfileTask = (http) => (mdl) => (user) => {
+  mdl.User = user
+  return getUserProfileTask(http)(mdl)(mdl.User.objectId)
+}
 
 export const updateUserProfile = (http) => (mdl) => (profile) =>
   http.backEnd.putTask(mdl)(`data/Profiles/${mdl.User.profile.objectId}`)(

@@ -1,5 +1,5 @@
 import { TimesCircleLine } from "@mithril-icons/clarity/cjs"
-import { InviteRSVP } from "Components"
+import { InviteRSVP } from "components"
 
 export const InvitesToast = () => {
   return {

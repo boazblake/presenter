@@ -1,4 +1,4 @@
-import { inviteOptions } from "Utils"
+import { inviteOptions } from "utils"
 import {
   SadFaceLine,
   HappyFaceLine,
@@ -7,7 +7,7 @@ import {
   SadFaceSolid,
   NeutralFaceSolid,
 } from "@mithril-icons/clarity/cjs"
-import { HTTP, updateInviteTask } from "Http"
+import { HTTP, updateInviteTask } from "http"
 
 const updateInvite = (mdl) => (update) => (reload) => {
   const onError = (error) => {
