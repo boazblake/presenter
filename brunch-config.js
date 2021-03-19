@@ -84,18 +84,21 @@ exports.paths = {
   public: "docs",
   watched: [
     "app",
-    "app/utils",
+    "app/components",
     "app/styles",
-    "app/pages",
+    "app/utils",
     "app/assets",
-    "app/Models",
-    "app/http",
-    "app/Fp",
   ],
 }
 
 exports.npm = {
   enabled: true,
   globals: { m: "mithril", Stream: "mithril-stream", M: "moment" },
-  styles: {},
+  styles:{'code-color': ['highlight.js/styles/shades-of-purple.css'],
+    "spectre.css": [
+      "dist/spectre.css",
+      "dist/spectre-exp.css",
+      "dist/spectre-icons.css"
+    ]
+  },
 }

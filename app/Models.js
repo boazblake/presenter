@@ -1,103 +1,107 @@
-import { getHoursInDay } from "utils"
-import { calendarModel } from "components/calendar/calendar-model"
+import MarkdownIt from "markdown-it"
+import highlightjs from "markdown-it-highlightjs"
+import emoji from "markdown-it-emoji"
+import sub from "markdown-it-sub"
+import sup from "markdown-it-sup"
+import ins from "markdown-it-ins"
+import footnote from "markdown-it-footnote"
+import deflist from "markdown-it-deflist"
+import abbr from "markdown-it-abbr"
+// import imsize from "markdown-it-imsize"
+import arrows from "markdown-it-smartarrows"
+import hljs from "highlight.js"
+import javascript from 'highlight.js/lib/languages/javascript'
+// import printJS from "print-js"
+hljs.registerLanguage('javascript', javascript);
+import { code } from "utils"
 
-// const Notifications = () => {
-//   let state = {
-//     invites: Stream([]),
-//     items: Stream([]),
-//     guests: Stream([]),
-//   }
+const markup = new MarkdownIt({
+  html: true, // Enable HTML tags in source
+  xhtmlOut: true, // Use '/' to close single tags (<br />).
+  // This is only for full CommonMark compatibility.
+  breaks: true, // Convert '\n' in paragraphs into <br>
+  langPrefix: "", // CSS language prefix for fenced blocks. Can be
+  // useful for external highlighters.
+  linkify: true, // Autoconvert URL-like text to links
 
-//   return {
-//     invites: state.invites,
-//     items: state.items,
-//     guests: state.guests,
-//     count: Stream.combine(
-//       (invites, items, guests) =>
-//         invites().length + items().length + guests().length,z,xnbkzjb/sNV/LZFNG
-//       [state.invites, state.items, state.guests]
-//     ),
-//   }
-// }
+  // Enable some language-neutral replacement + quotes beautification
+  typographer: true,
 
-const Map = {
-  locale: Stream(null),
-  bounds: Stream(encodeURIComponent("-125.5957, 24.36711, -65.39063, 48.944")),
-  defaultBounds: encodeURIComponent("-125.5957, 24.36711, -65.39063, 48.944"),
+  // Double + single quotes replacement pairs, when typographer enabled,
+  // and smartquotes on. Could be either a String or an Array.
+  //
+  // For example, you can use '«»„“' for Russian, '„“‚‘' for German,
+  // and ['«\xA0', '\xA0»', '‹\xA0', '\xA0›'] for French (including nbsp).
+  quotes: "“”‘’",
+
+  // Highlighter function. Should return escaped HTML,
+  // or '' if the source string is not changed and should be escaped externally.
+  // If result starts with <pre... internal wrapper is skipped.
+  highlight: (str, lang) => str
+})
+  .use(highlightjs, {hljs})
+  .use(emoji)
+  .use(sub)
+  .use(sup)
+  .use(ins)
+  .use(footnote)
+  .use(deflist)
+  .use(abbr)
+  // .use(imsize, { autofill: true })
+  .use(arrows)
+
+const SlideModel = {
+  title: "",
+  contents: "",
+  order: 0,
+  presentation_id: ""
 }
 
-const State = {
-  isAuth: Stream(false),
-  modal: Stream(false),
-  isLoading: Stream(false),
-  loadingProgress: { max: 0, value: 0 },
-  isLoggedIn: () => sessionStorage.getItem("token"),
-  is24Hrs: Stream(true),
-  toAnchor: Stream(false),
-  slug: "",
+const Slides = []
+
+const Presentations = []
+
+const SlideShowStruct = {
+  keys: new Set(),
+  values: {},
+  items: Stream([])
 }
 
-export const dayModel = (mdl) =>
-  getHoursInDay().reduce((day, hour) => {
-    day[hour] = []
-    // console.log(day, hour)
-    return day
-  }, {})
-
-const Events = {
-  currentEventId: Stream(null),
-  currentEventStart: Stream(null),
-  createNewEvent: Stream(false),
-  updateEvent: Stream(false),
-  fetch: Stream(false),
-  isMember: Stream(false),
+const CurrentPresentation = {
+  title: "",
+  id: "",
+  slideShow: Stream([]),
+  Slides
 }
 
-const Invites = {
-  state: { error: null, status: Stream("loading") },
-  withRSVP: Stream([]),
-  needRSVP: Stream([]),
-  fetch: Stream(false),
+const getProfile = (w) => {
+  if (w < 668) return "phone"
+  if (w < 920) return "tablet"
+  return "desktop"
 }
 
-const Items = {
-  updateItemAndGuest: Stream(false),
+const caputerScreen = () => {
+  let w=window.open();
+  let c = document.cloneNode(document)
+  console.log(c)
+  w.document.body.appendChild(c.getElementById('slidecard'))
+  w.print();
+  w.close();
 }
 
-const Day = {
-  data: dayModel({ State }),
-  update: Stream(false),
-  listView: Stream(true),
+const Models = {
+  caputerScreen,
+  markup,
+  profile: getProfile(window.innerWidth),
+  SlideShowStruct,
+  Presentations,
+  CurrentPresentation,
+  SlideModel,
+  toggleModal: false,
+  toggleAuthModal: false,
+  code:code(),
+  isLoggedIn:false
 }
 
-const Home = {}
 
-const Settings = { profile: "", inspector: "" }
-
-const Calendar = {
-  data: calendarModel({ mdl: Model, invites: [], date: M() }),
-  state: { start: Stream(0) },
-}
-const User = {}
-
-const Sidebar = {
-  isShowing: Stream(false),
-}
-
-const Model = {
-  selectedDate: Stream(""),
-  todayDate: Stream(M()),
-  Calendar,
-  Day,
-  Events,
-  Invites,
-  State,
-  Settings,
-  User,
-  Home,
-  Sidebar,
-  Map,
-  Items,
-}
-
-export default Model
+export default Models

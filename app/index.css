@@ -1,0 +1,89 @@
+/* index.css */
+
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700,900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Fira+Code&display=swap");
+
+@import url("./animations.css");
+@import url('highlight.js/styles/shades-of-purple.css');
+
+
+@media print {
+   #slidecard {
+      height: 100% !important;
+      width: 100% !important;
+      display: inline-block;
+  }
+}
+
+strong {
+  font-weight: 700;
+}
+
+h1 {
+  font-weight: 900;
+}
+
+body,
+html {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
+  height: 99vh;
+  overflow: hidden;
+}
+
+pre.lang-js {
+  display: block;
+  width: 100%;
+  padding: 20px;
+  font-size: 17px;
+  line-height: 1.2em;
+  background: rgba(44, 62, 80, 1);
+  color: rgba(39, 174, 96, 1);
+  border-radius: 6px;
+  font-family: "Fira Code";
+}
+
+pre.lang-js > * {
+  overflow-wrap: break-word;
+}
+
+.lang-html {
+  font-family: "Fira Code";
+  background: rgba(44, 62, 80, 1);
+  background: linear-gradient(180deg, #ccc 0, #ccc 1.2em, #eee 0);
+  color: rgba(41, 128, 185, 1);
+}
+
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+
+
+
+blockquote {
+  padding: 10px 20px;
+  margin: 0 0 20px;
+  font-size: 17.5px;
+  border-left: 5px solid #eee;
+}
+
+.hljs {
+  font-size: 1.17rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+  .container {
+    flex-flow: wrap;
+  }
+}

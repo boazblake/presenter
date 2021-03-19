@@ -1,0 +1,42 @@
+.slideshow {
+  height: 92vh;
+  width: 100vw;
+  margin: 0 auto;
+  background: white;
+  outline: 0;
+  overflow: auto;
+}
+
+.slidecard {
+  animation: stretchRight 1s ease-in-out both;
+  outline: 0;
+  width: 65%;
+  margin: 0 auto;
+  height: 100%;
+  cursor: pointer;
+}
+
+.endingContainer {
+  position: relative;
+}
+
+.endingTitle {
+  position: absolute;
+  color: white;
+  top: 25%;
+  left: 25%;
+  font-size: 5em;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: 0.15em; /* Adjust as needed */
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+.slideshow .right {
+  cursor: url(~/assets/right-cursor.png), auto;
+}
+
+.slideshow .left {
+  cursor: url(~/assets/left-cursor.png), auto;
+}

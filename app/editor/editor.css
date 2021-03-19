@@ -1,0 +1,47 @@
+.editor {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: top;
+}
+
+.editor-left {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-content: center;
+  margin: 0;
+  box-shadow: none;
+  flex-basis: 30%;
+  height: 687px;
+  width: 30%;
+}
+
+.editor-right {
+  background: white;
+  border: 1px dashed green;
+  flex-basis: 70%;
+  overflow-y: scroll;
+  padding-left: 10px;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  max-height: 93vh;
+  width: 50%;
+}
+
+.editorinput {
+  width: 100%;
+  line-height: 2em;
+  font-size: 20px;
+  padding-left: 6px;
+}
+
+.editor-text {
+  height: 80vh;
+  margin-bottom: 10px;
+  padding: 4px 0 0 8px;
+}
+
+

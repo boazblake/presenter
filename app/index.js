@@ -1,70 +1,39 @@
-import { log } from "utils"
-import App from "./App.js"
-import Model from "Models"
-import { Fp } from "Fp"
-import { getMyLocationTask } from "utils"
-Fp.configure()
-
 const root = document.body
-let winW = window.innerWidth
+import {Layout} from "./components/layout.js"
 
-if (module.hot) {
-  module.hot.accept()
+import Presentations from "./presentations/component.js"
+import Slides from "./slides/component.js"
+import Editor from "./editor/component.js"
+import SlideShow from "./slideshow/component.js"
+import Models from "./models.js"
+
+
+if(sessionStorage.getItem('code') ) {
+  Models.isLoggedIn = true
 }
 
-if (process.env.NODE_ENV == "development") {
-  console.log("Looks like we are in development mode!")
-} else {
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("./service-worker.js")
-        .then((registration) => {
-          console.log("⚙️ SW registered: ", registration)
-        })
-        .catch((registrationError) => {
-          console.log("🧟 SW registration failed: ", registrationError)
-        })
-    })
+
+const makeRoutes = (mdl) => {
+  return {
+    "/presentations": {
+      render: () => m(Layout, {mdl}, m(Presentations, {mdl}))
+    },
+    "/presentation/:id/slides": {
+      render: () => m(Layout, {mdl}, m(Slides, {mdl}))
+    },
+    "/edit/:pid/slide/:id": {
+      onmatch:() => mdl.isLoggedIn || m.route.set(m.route.get()),
+      render: () => m(Layout, {mdl}, m(Editor, {mdl}))
+    },
+    "/slideshow/:id": {
+      onmatch: ({ id }) =>
+        mdl.CurrentPresentation.Slides.length == 0 &&
+        m.route.set(`/presentation/${id}/slides`),
+      render: () => m(Layout, {mdl}, m(SlideShow, {mdl}))
+    }
   }
 }
 
-// set display profiles
-const getProfile = (w) => {
-  if (w < 668) return "phone"
-  if (w < 920) return "tablet"
-  return "desktop"
-}
 
-const checkWidth = (winW) => {
-  const w = window.innerWidth
-  if (winW !== w) {
-    winW = w
-    var lastProfile = Model.Settings.profile
-    Model.Settings.profile = getProfile(w)
-    if (lastProfile != Model.Settings.profile) m.redraw()
-  }
-  return requestAnimationFrame(checkWidth)
-}
 
-Model.Settings.profile = getProfile(winW)
-
-checkWidth(winW)
-
-if (sessionStorage.getItem("shindigit-user")) {
-  Model.User = JSON.parse(sessionStorage.getItem("shindigit-user"))
-  Model.State.isAuth(true)
-  Model.User.profile && Model.State.is24Hrs(Model.User.profile.is24Hrs)
-
-  getMyLocationTask(Model).fork(log("location err"), log("location: "))
-
-  if (localStorage.getItem("shindigit-eventId")) {
-    Model.Events.currentEventId(localStorage.getItem("shindigit-eventId"))
-    Model.Events.currentEventStart(localStorage.getItem("shindigit-eventStart"))
-    Model.selectedDate(localStorage.getItem("shindigit-eventStart"))
-  }
-} else {
-  m.route.set("/logout")
-}
-
-m.route(root, "/login", App(Model))
+m.route(root, "/presentations", makeRoutes(Models))
