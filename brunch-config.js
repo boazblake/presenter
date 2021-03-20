@@ -28,6 +28,19 @@ exports.modules = {
 }
 
 exports.plugins = {
+  "@babel": { presets: ["env"] },
+  babel: {
+    presets: [
+      [
+        "@babel/preset-env",
+        {
+          targets: {
+            browsers: ["last 2 versions"],
+          },
+        },
+      ],
+    ],
+  },
   sass: {
     precision: 8,
     mode: "native",
@@ -42,18 +55,6 @@ exports.plugins = {
       "imagemin-svgo": true,
     },
     pattern: /\.(gif|jpg|jpeg|jpe|jif|jfif|jfi|png|svg|svgz)$/,
-  },
-  babel: {
-    presets: [
-      [
-        "@babel/preset-env",
-        {
-          targets: {
-            browsers: ["last 2 versions"],
-          },
-        },
-      ],
-    ],
   },
   copycat: {
     fonts: [
@@ -77,7 +78,14 @@ exports.plugins = {
       stripPrefix: "docs/",
     },
   },
-  "@babel": { presets: ["env"] },
+  terser: {
+    mangle: true,
+    compress: {
+      global_defs: {
+        DEBUG: false,
+      },
+    },
+  },
 }
 
 exports.paths = {
