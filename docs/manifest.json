@@ -1,6 +1,12 @@
 {
   "short_name": "presenter",
   "name": "presenter",
+  "start_url": "/presenter/#!/presentations",
+  "background_color": "#3367D6",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "scope": "/",
+  "theme_color": "#3367D6",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
@@ -41,11 +47,6 @@
       "src": "icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
-    }],
-  "start_url": "/presenter/#!/home",
-  "background_color": "#3367D6",
-  "display": "fullscreen",
-  "orientation": "portrait",
-  "scope": "/",
-  "theme_color": "#3367D6"
+    }
+  ]
 }
