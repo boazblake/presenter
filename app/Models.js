@@ -13,7 +13,6 @@ import hljs from "highlight.js"
 import javascript from "highlight.js/lib/languages/javascript"
 // import printJS from "print-js"
 hljs.registerLanguage("javascript", javascript)
-import { code } from "utils"
 
 const markup = new MarkdownIt({
   html: true, // Enable HTML tags in source
@@ -102,7 +101,7 @@ const Models = {
     auth: false,
   },
   toggleModal: (mdl, modal) => (mdl.modals[modal] = !mdl.modals[modal]),
-  code: code(),
+  code: null,
   isLoggedIn: false,
 }
 

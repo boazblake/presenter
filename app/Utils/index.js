@@ -1,12 +1,11 @@
-export * from './animations.js'
-export * from './requests.js'
-export * from './.secret.js'
+export * from "./animations.js"
+export * from "./requests.js"
+export * from "./.secret.js"
+export * from "./Tasks.js"
 
+const makeQuery = (string) => JSON.parse(JSON.stringify(string))
 
-const makeQuery = string => JSON.parse(JSON.stringify(string))
-
-
-const repeat = n => f => x => {
+const repeat = (n) => (f) => (x) => {
   let m = n
   while (true) {
     if (m === 0) return x
@@ -14,7 +13,7 @@ const repeat = n => f => x => {
   }
 }
 
-const wait = n => f => x => {
+const wait = (n) => (f) => (x) => {
   let m = n
   while (true) {
     if (m === 0) return x
@@ -22,14 +21,14 @@ const wait = n => f => x => {
   }
 }
 
-const log = m => v => {
+const log = (m) => (v) => {
   console.log(m, v)
   return v
 }
 
-const viewModelMap = signature => {
+const viewModelMap = (signature) => {
   var _map = {}
-  return function(key) {
+  return function (key) {
     if (!_map[key]) {
       _map[key] = {}
       for (var prop in signature) _map[key][prop] = Stream(signature[prop]())

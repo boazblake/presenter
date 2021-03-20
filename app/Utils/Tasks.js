@@ -1,7 +1,7 @@
 import Task from "data.task"
 import { onlineUrl, makeQuery } from "./index.js"
 
-export const postQl = query =>
+export const postQl = (query) =>
   new Task((rej, res) =>
     m
       .request({
@@ -13,19 +13,19 @@ export const postQl = query =>
       .then(res, rej)
   )
 
-const postTask = url => ({ dto }) =>
+const postTask = (url) => (dto) =>
   new Task((rej, res) =>
     m
       .request({
         method: "POST",
-        url: `${onlineUrl}/${url}`,
+        url: `${url}`,
         body: dto,
         withCredentials: false,
       })
       .then(res, rej)
   )
 
-const putTask = url => ({ dto }) =>
+const putTask = (url) => ({ dto }) =>
   new Task((rej, res) =>
     m
       .request({
@@ -37,7 +37,7 @@ const putTask = url => ({ dto }) =>
       .then(res, rej)
   )
 
-const getTask = url =>
+const getTask = (url) =>
   new Task((rej, res) =>
     m
       .request({
@@ -48,7 +48,7 @@ const getTask = url =>
       .then(res, rej)
   )
 
-const deleteTask = url => id =>
+const deleteTask = (url) => (id) =>
   new Task((rej, res) =>
     m
       .request({

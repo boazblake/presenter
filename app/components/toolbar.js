@@ -1,13 +1,13 @@
 import { isEmpty, split, view, lensProp } from "ramda"
-import { emailMe } from "../utils/.secret.js"
-import { log } from "utils"
+import { log, secure } from "utils"
+import http from "utils/Tasks.js"
 import { Modal } from "./modal.js"
 
 const AuthModal = ({ attrs: { mdl } }) => {
   const state = { code: "" }
 
   const verifyCode = (state) => (e) => {
-    if (state.code === mdl.code) {
+    if (secure(state.code) === mdl.code) {
       mdl.isLoggedIn = true
       mdl.toggleModal(mdl, "auth")
       sessionStorage.setItem("code", true)
@@ -16,7 +16,9 @@ const AuthModal = ({ attrs: { mdl } }) => {
 
   return {
     oninit: () => {
-      Email.send(emailMe(mdl.code)).then(log("email sent: ")) //add errror handler
+      http
+        .postTask("https://ancient-headland-12919.herokuapp.com/auth")()
+        .fork(log("e"), (code) => (mdl.code = code))
     },
     view: () =>
       m(Modal, {

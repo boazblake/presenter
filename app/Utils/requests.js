@@ -1,14 +1,12 @@
 import httpTasks from "./Tasks.js"
 
-import { log } from "./index.js"
-
 export const findPresentationsTask = () => httpTasks.getTask("presentations")
 
 export const getQlTask = (query) => httpTasks.postQl({ query })
 
 export const savePresentationTask = (dto) =>
   httpTasks.postTask(`presentations`)({
-    dto
+    dto,
   })
 
 export const deletePresentationsTask = (id) =>
