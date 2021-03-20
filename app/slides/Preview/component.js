@@ -1,12 +1,12 @@
 import { concat, eqProps, compose, filter, map, propEq, head } from "ramda"
-import { log , animateFadeIn} from "utils"
+import { log, animateFadeIn } from "utils"
 import {
   forGreater,
   reduceOrder,
   updateRemoveSlide,
-  updateSlideTask
+  updateSlideTask,
 } from "../model.js"
-import {RemoveLine,EditLine} from '@mithril-icons/clarity/cjs'
+import { RemoveLine, EditLine } from "@mithril-icons/clarity/cjs"
 
 const SlidePosition = ({ attrs: { update } }) => {
   const updateSlidesPosition = (dir, slides, slide) => {
@@ -28,21 +28,23 @@ const SlidePosition = ({ attrs: { update } }) => {
 
   return {
     view: ({ attrs: { slides, slide, dir } }) =>
-      m(`button.s-circle`, {
-        disabled:
-          (dir == "right" && slide.order == slides.length) ||
-          (dir == "left" && slide.order == 1),
-        onclick: () => updateSlidesPosition(dir, slides, slide)
-      }, m(`i.icon icon-arrow-${dir}`))
+      m(
+        `button.s-circle`,
+        {
+          disabled:
+            (dir == "right" && slide.order == slides.length) ||
+            (dir == "left" && slide.order == 1),
+          onclick: () => updateSlidesPosition(dir, slides, slide),
+        },
+        m(`i.icon icon-arrow-${dir}`)
+      ),
   }
 }
 
 const Preview = ({ attrs: { getSlides, mdl, s, key, state } }) => {
   const onError = (task) => (error) => log(`error with ${task}`)(error)
 
-  const onSuccess = (_) =>
-    getSlides({ attrs: { mdl } })
-
+  const onSuccess = (_) => getSlides({ attrs: { mdl } })
 
   const updateAndSaveSlideTask = (slides) => {
     return updateSlideTask(mdl.CurrentPresentation.id)(slides).fork(
@@ -52,10 +54,7 @@ const Preview = ({ attrs: { getSlides, mdl, s, key, state } }) => {
   }
 
   const removeSlideTask = (s) => {
-    let tail = compose(
-      map(reduceOrder),
-      filter(forGreater(s))
-    )(state.right())
+    let tail = compose(map(reduceOrder), filter(forGreater(s)))(state.right())
     let removeSlide = updateRemoveSlide(s)
 
     let updateList = concat(removeSlide, tail)
@@ -118,55 +117,59 @@ const Preview = ({ attrs: { getSlides, mdl, s, key, state } }) => {
           ondrop: handleDrop,
           ondragleave: handleDragLeave,
           style: {
-            position:'relative',
+            position: "relative",
             opacity:
               state.previewDrag.drop && state.previewDrag.drop.id == s.id
                 ? 0.4
-                : 1
-          }
+                : 1,
+          },
         },
         [
-          m(".card-header",[
+          m(".card-header", [
             m("p.slidePosition", s.order),
-            mdl.isLoggedIn && m(
-              RemoveLine,
-              {
-                style:{
-                  position:'absolute',
+            mdl.isLoggedIn &&
+              m(RemoveLine, {
+                class: "clarity",
+                style: {
+                  position: "absolute",
                   top: 0,
                   right: 0,
                 },
-                onclick: () => removeSlideTask(s)
-              },
-            ),
+                onclick: () => removeSlideTask(s),
+              }),
           ]),
           m("p.slidePosition", s.title),
           // m(".card-body", m.trust(mdl.markup.render(s.content || ""))),
-         mdl.isLoggedIn && m(".card-footer", [
-            m(SlidePosition, {
-              slides: state.right(),
-              dir: "left",
-              slide: s,
-              update: updateAndSaveSlideTask
-            }),
-            m(EditLine,{             style:{
-              position:'absolute',
-              top: 35,
-              right: 0,
-            },
-              onclick: () =>  {
-                m.route.set(`/edit/${mdl.CurrentPresentation.id}/slide/${s.id}`)
-              },
-            }),
-            m(SlidePosition, {
-              slides: state.right(),
-              dir: "right",
-              slide: s,
-              update: updateAndSaveSlideTask
-            })
-          ])
+          mdl.isLoggedIn &&
+            m(".card-footer", [
+              m(SlidePosition, {
+                slides: state.right(),
+                dir: "left",
+                slide: s,
+                update: updateAndSaveSlideTask,
+              }),
+              m(EditLine, {
+                class: "clarity",
+                style: {
+                  position: "absolute",
+                  top: 35,
+                  right: 0,
+                },
+                onclick: () => {
+                  m.route.set(
+                    `/edit/${mdl.CurrentPresentation.id}/slide/${s.id}`
+                  )
+                },
+              }),
+              m(SlidePosition, {
+                slides: state.right(),
+                dir: "right",
+                slide: s,
+                update: updateAndSaveSlideTask,
+              }),
+            ]),
         ]
-      )
+      ),
   }
 }
 

@@ -36,10 +36,7 @@ const Presentation = ({ attrs: { mdl } }) => {
             ".tile-action",
             mdl.isLoggedIn &&
               m(RemoveLine, {
-                style: {
-                  width: "0.8rem",
-                  "margin-right": "30px",
-                },
+                class: "clarity",
                 onclick: (e) => {
                   e.stopPropagation()
                   removePresTask(id)

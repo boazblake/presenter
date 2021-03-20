@@ -6,6 +6,10 @@
 @import url("./animations.css");
 @import url('highlight.js/styles/shades-of-purple.css');
 
+.clarity {
+  width: 0.8rem;
+  margin-right: 30px;
+}
 
 @media print {
    #slidecard {
