@@ -6,13 +6,14 @@ import {
   without,
   concat,
   head,
-  sortBy
+  sortBy,
 } from "ramda"
 import SlidesModal from "./slidesModal.js"
 import Slide from "./Slide/component.js"
 import Preview from "./Preview/component.js"
 import { loadSlides } from "./model.js"
 import { log } from "utils"
+import { autoDetection } from "highlight.js"
 
 const Slides = ({ attrs: { mdl } }) => {
   const state = {
@@ -21,13 +22,13 @@ const Slides = ({ attrs: { mdl } }) => {
     slideDrag: {
       dragId: "",
       dragging: false,
-      droppable: false
+      droppable: false,
     },
     previewDrag: {
       drag: null,
-      drop: null
+      drop: null,
     },
-    presentationId: ""
+    presentationId: "",
   }
 
   const onError = log("error")
@@ -91,39 +92,42 @@ const Slides = ({ attrs: { mdl } }) => {
     view: ({ attrs: { mdl } }) => [
       mdl.toggleModal
         ? m(SlidesModal, {
-            toggleModal: () => (mdl.toggleModal = !mdl.toggleModal),
-            left: state.left,
             slide: clone(mdl.SlideModel),
             getSlides,
             mdl,
-            pId: state.presentationId
+            pId: state.presentationId,
           })
         : "",
       m(".container.slides", [
         m(
           `aside.left-drag ${state.left().length == 0 ? ".isDragging" : ""}`,
           {
+            style: {
+              overflowY: "auto",
+            },
             onBeforeRemove: (vnode, done) => {
               vnode.dom.addEventListener("animationend", done)
               vnode.dom.style.animation = "fadeOut 1s"
-            }
+            },
           },
-          [
-            state.left().map((s) =>
-              m(Slide, {
-                key: s.id,
-                mdl,
-                getSlides,
-                s,
-                state
-              })
-            )
-          ]
+          state.left().map((s) =>
+            m(Slide, {
+              key: s.id,
+              mdl,
+              getSlides,
+              s,
+              state,
+            })
+          )
         ),
 
         m(
           `section.right-drag${state.slideDrag.dragging ? ".isDragging" : ""}`,
           {
+            style: {
+              height: "90vh",
+              overflowY: "auto",
+            },
             onBeforeRemove: (vnode, done) => {
               vnode.dom.addEventListener("animationend", done)
               vnode.dom.style.animation = "fadeOut 1s"
@@ -131,7 +135,7 @@ const Slides = ({ attrs: { mdl } }) => {
             ondragleave: handleDragLeave,
             ondrop: handleDrop,
             ondragover: handleDragOver,
-            ondragenter: handleDragEnter
+            ondragenter: handleDragEnter,
           },
           state.right().map((s) => {
             return m(Preview, {
@@ -139,12 +143,12 @@ const Slides = ({ attrs: { mdl } }) => {
               mdl,
               getSlides,
               s,
-              state
+              state,
             })
           })
-        )
-      ])
-    ]
+        ),
+      ]),
+    ],
   }
 }
 

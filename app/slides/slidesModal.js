@@ -1,12 +1,11 @@
 import { assoc } from "ramda"
 import { saveSlideTask } from "./model.js"
+import { Modal } from "components/modal"
 
-const SlidesModal = ({
-  attrs: { left, pId, slide, toggleModal, getSlides, Models }
-}) => {
+const SlidesModal = ({ attrs: { pId, slide, getSlides, mdl } }) => {
   const state = {
     errors: "",
-    title: ""
+    title: "",
   }
 
   const onError = (errors) => {
@@ -14,9 +13,9 @@ const SlidesModal = ({
     state.errors = errors
   }
 
-  const onSuccess = (slides) => {
-    getSlides({ attrs: { Models } })
-    return toggleModal()
+  const onSuccess = () => {
+    getSlides({ attrs: { mdl } })
+    mdl.toggleModal(mdl, "slides")
   }
 
   const save = (e) => {
@@ -27,33 +26,22 @@ const SlidesModal = ({
 
   return {
     view: () =>
-      m("article.modal-container", [
-        m(".card", [
-          m(".card-header", [
-            m("h2.modal-title", "Slide Title"),
-            m("button.card-delete", {
-              onclick: () => {
-                return toggleModal()
-              },
-              "aria-label": "close"
-            })
-          ]),
-          m(".card-body", [
-            m(
-              ".modal-content",
-              m("input.modal-input", {
-                autofocus: true,
-                type: "text",
-                onchange: (e) => (state.title = e.target.value)
-              })
-            )
-          ]),
-          m(
-            ".card-footer",
-            m("button.card-btn", { onclick: save }, "Create New Slide")
-          )
-        ])
-      ])
+      m(Modal, {
+        onremove: () => {
+          state.title = ""
+          state.errors = ""
+        },
+        mdl: mdl,
+        id: "slides",
+        modalTitle: "New Slide",
+        modalContent: m("input", {
+          value: state.title,
+          autofocus: true,
+          type: "text",
+          onkeyup: (e) => (state.title = e.target.value),
+        }),
+        modalFooter: m("button.card-btn", { onclick: save }, "add slide"),
+      }),
   }
 }
 

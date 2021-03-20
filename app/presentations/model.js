@@ -1,8 +1,8 @@
-import { getQlTask } from "utils"
+import { getQlTask, log } from "utils"
 import { path } from "ramda"
 
 const toViewModel = ({ data, errors }) => {
-  console.log("errors", errors)
+  log("errors")(errors)
   return { data, errors }
 }
 

@@ -10,9 +10,9 @@ import abbr from "markdown-it-abbr"
 // import imsize from "markdown-it-imsize"
 import arrows from "markdown-it-smartarrows"
 import hljs from "highlight.js"
-import javascript from 'highlight.js/lib/languages/javascript'
+import javascript from "highlight.js/lib/languages/javascript"
 // import printJS from "print-js"
-hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage("javascript", javascript)
 import { code } from "utils"
 
 const markup = new MarkdownIt({
@@ -37,9 +37,9 @@ const markup = new MarkdownIt({
   // Highlighter function. Should return escaped HTML,
   // or '' if the source string is not changed and should be escaped externally.
   // If result starts with <pre... internal wrapper is skipped.
-  highlight: (str, lang) => str
+  highlight: (str, lang) => str,
 })
-  .use(highlightjs, {hljs})
+  .use(highlightjs, { hljs })
   .use(emoji)
   .use(sub)
   .use(sup)
@@ -54,7 +54,7 @@ const SlideModel = {
   title: "",
   contents: "",
   order: 0,
-  presentation_id: ""
+  presentation_id: "",
 }
 
 const Slides = []
@@ -64,14 +64,14 @@ const Presentations = []
 const SlideShowStruct = {
   keys: new Set(),
   values: {},
-  items: Stream([])
+  items: Stream([]),
 }
 
 const CurrentPresentation = {
   title: "",
   id: "",
   slideShow: Stream([]),
-  Slides
+  Slides,
 }
 
 const getProfile = (w) => {
@@ -81,12 +81,11 @@ const getProfile = (w) => {
 }
 
 const caputerScreen = () => {
-  let w=window.open();
+  let w = window.open()
   let c = document.cloneNode(document)
-  console.log(c)
-  w.document.body.appendChild(c.getElementById('slidecard'))
-  w.print();
-  w.close();
+  w.document.body.appendChild(c.getElementById("slidecard"))
+  w.print()
+  w.close()
 }
 
 const Models = {
@@ -97,11 +96,14 @@ const Models = {
   Presentations,
   CurrentPresentation,
   SlideModel,
-  toggleModal: false,
-  toggleAuthModal: false,
-  code:code(),
-  isLoggedIn:false
+  modals: {
+    presentations: false,
+    slides: false,
+    auth: false,
+  },
+  toggleModal: (mdl, modal) => (mdl.modals[modal] = !mdl.modals[modal]),
+  code: code(),
+  isLoggedIn: false,
 }
-
 
 export default Models

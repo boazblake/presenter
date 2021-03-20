@@ -10,7 +10,7 @@
 .slidecard {
   animation: stretchRight 1s ease-in-out both;
   outline: 0;
-  width: 65%;
+  width: 70%;
   margin: 0 auto;
   height: 100%;
   cursor: pointer;

@@ -1,50 +1,48 @@
-import { clone } from 'ramda'
-import {  animateFadeIn,} from 'utils'
-import PresentationModal from './presentationModal.js'
-import Presentation from './Presentation/component.js'
+import { clone } from "ramda"
+import { animateFadeIn } from "utils"
+import PresentationModal from "./presentationModal.js"
+import Presentation from "./Presentation/component.js"
 import { getPresentations } from "./model.js"
 
-  const onError = (error) => {
-    log("error")(error)
-    state.error = error
-  }
+const onError = (error) => {
+  log("error")(error)
+  state.error = error
+}
 
+const onSuccess = (mdl) => (dto) => (mdl.Presentations = dto)
 
-  const onSuccess = (mdl) => (dto) =>
-    mdl.Presentations = dto
-
-  const findPresentations = ({ attrs: { mdl } }) =>
-    getPresentations().fork(onError, onSuccess(mdl))
-
+const findPresentations = ({ attrs: { mdl } }) =>
+  getPresentations().fork(onError, onSuccess(mdl))
 
 const Presentations = () => {
   const state = {
-    errors: [],
-    title: '',
+    errors: null,
+    title: "",
   }
 
   return {
-
-      oninit: findPresentations,
+    oninit: findPresentations,
 
     view: ({ attrs: { mdl } }) => [
-      mdl.toggleModal
-        ? m(PresentationModal, {
-            mdl,
-            state,
-            toggleModal: () => (mdl.toggleModal = !mdl.toggleModal),
-            presentations: mdl.Presentations,
-            presentationModel: clone(mdl.PresentationModel),
-          })
-        : '',
+      mdl.modals.presentations &&
+        m(PresentationModal, {
+          onremove: () => {
+            state.title = ""
+            state.errors = null
+          },
+          mdl,
+          state,
+          presentations: mdl.Presentations,
+          presentationModel: clone(mdl.PresentationModel),
+        }),
 
       m(
-        '.container.columns',
+        ".container.columns",
         {
           oncreate: ({ dom }) => animateFadeIn({ dom }),
           onBeforeRemove: (vnode, done) => {
-            vnode.dom.addEventListener('animationend', done)
-            vnode.dom.style.animation = 'fadeOut 1s'
+            vnode.dom.addEventListener("animationend", done)
+            vnode.dom.style.animation = "fadeOut 1s"
           },
         },
         [

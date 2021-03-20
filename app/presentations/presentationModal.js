@@ -1,53 +1,46 @@
 import { savePresentationTask } from "./model.js"
 import { log } from "utils"
+import { Modal } from "components/modal"
 
-const PresentationModal = ({ attrs }) => {
+const PresentationModal = ({
+  attrs: { state, mdl, presentations, onremove },
+}) => {
   const onError = (errors) => {
     log("error")(errors)
-    attrs.state.errors = errors
-    attrs.toggleModal()
+    state.errors = errors
+    toggleModal()
   }
   const onSuccess = (p) => {
-    attrs.state.title = ""
-    attrs.state.errors = []
-    attrs.presentations.push(p)
-    attrs.toggleModal()
+    state.title = ""
+    state.errors = null
+    presentations.push(p)
+    mdl.toggleModal(mdl, "presentations")
   }
 
   const save = (e) => {
     e.preventDefault()
-    savePresentationTask(attrs.state).fork(onError, onSuccess)
+    savePresentationTask(state).fork(onError, onSuccess)
   }
 
   return {
     view: () =>
-      m("article.modal-container", [
-        m(".card", [
-          m(".card-header", [
-            m("h2.modal-label", "Presentation Name"),
-            m("button.card-delete", {
-              onclick: () => {
-                return attrs.toggleModal()
-              },
-              "aria-label": "close"
-            })
-          ]),
-          m(".card-body", [
-            m(
-              ".modal-content",
-              m("input.modal-input", {
-                autofocus: true,
-                type: "text",
-                onchange: (e) => (attrs.state.title = e.target.value)
-              })
-            )
-          ]),
-          m(
-            ".card-footer",
-            m("button.card-btn", { onclick: save }, "create presentation")
-          )
-        ])
-      ])
+      m(Modal, {
+        onremove,
+        mdl: mdl,
+        id: "presentations",
+        modalTitle: "New Presentation",
+        modalContent: m("input", {
+          value: state.title,
+          autofocus: true,
+          type: "text",
+          onkeyup: (e) => (state.title = e.target.value),
+        }),
+        modalFooter: m(
+          "button.card-btn",
+          { onclick: save },
+          "create presentation"
+        ),
+      }),
   }
 }
 
