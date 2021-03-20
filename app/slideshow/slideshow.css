@@ -18,6 +18,8 @@
 
 .endingContainer {
   position: relative;
+  top: 30%;
+  transform: translateY(-25%)
 }
 
 .endingTitle {
@@ -33,10 +35,10 @@
   animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
 
-.slideshow .right {
-  cursor: url(~/assets/right-cursor.png), auto;
+#slideshow .right {
+  cursor: url('images/right.png'), auto;
 }
 
-.slideshow .left {
-  cursor: url(~/assets/left-cursor.png), auto;
+#slideshow .left {
+  cursor: url('images/left.png'), auto;
 }
