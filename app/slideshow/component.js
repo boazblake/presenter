@@ -25,7 +25,6 @@ const SlideShow = ({ attrs: { mdl } }) => {
     (state.key = calcStatePosition(x) == "right" ? "ArrowRight" : "ArrowLeft")
 
   const nextSlide = () => {
-    window.scrollTo({ top: 0, behaviour: "smooth" })
     if (state.cursor == state.size - 1) state.contents[state.cursor] = ENDING
     else {
       state.cursor++
@@ -34,7 +33,6 @@ const SlideShow = ({ attrs: { mdl } }) => {
   }
 
   const prevSlide = () => {
-    window.scrollTo({ top: 0, behaviour: "smooth" })
     state.cursor == 0 ? state.cursor : state.cursor--
   }
 
@@ -90,7 +88,6 @@ const SlideShow = ({ attrs: { mdl } }) => {
             onupdate: ({ dom }) => {
               animateEntranceRight({ dom })
               dom.scrollIntoView({
-                behavior: "smooth",
                 block: "start",
                 inline: "start",
               })
