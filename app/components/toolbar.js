@@ -98,7 +98,7 @@ const toSlides = (mdl) => [
 
 const toSlideShow = (mdl) =>
   mdl.CurrentPresentation &&
-  !isEmpty(mdl.CurrentPresentation.slideShow()) &&
+  !isEmpty(mdl.CurrentPresentation.slideShow) &&
   m(
     m.route.Link,
     {

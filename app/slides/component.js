@@ -13,7 +13,6 @@ import Slide from "./Slide/component.js"
 import Preview from "./Preview/component.js"
 import { loadSlides } from "./model.js"
 import { log } from "utils"
-import { autoDetection } from "highlight.js"
 
 const Slides = ({ attrs: { mdl } }) => {
   const state = {
@@ -33,14 +32,14 @@ const Slides = ({ attrs: { mdl } }) => {
 
   const onError = log("error")
 
-  const onSuccess = (presentation) => {
+  const onSuccess = () => {
     let slides = mdl.CurrentPresentation.Slides
 
     state.left(filter(propEq("order", 0), slides))
 
     state.right(sortBy(prop("order"), without(state.left(), slides)))
 
-    mdl.CurrentPresentation.slideShow = Stream(state.right())
+    mdl.CurrentPresentation.slideShow = state.right()
   }
 
   const getSlides = ({ attrs: { mdl } }) => {

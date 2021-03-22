@@ -5,10 +5,13 @@
   background: white;
   outline: 0;
   overflow: auto;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
 }
 
 .slidecard {
   animation: stretchRight 1s ease-in-out both;
+  scroll-snap-align: top;
   outline: 0;
   width: 70%;
   margin: 0 auto;

@@ -1,3 +1,4 @@
+import m from "mithril"
 import { pluck } from "ramda"
 import { animateEntranceRight } from "utils"
 
@@ -8,12 +9,13 @@ const ENDING = `<div class="endingContainer">
 `
 
 const SlideShow = ({ attrs: { mdl } }) => {
+  if (!mdl.CurrentPresentation.id) m.route.set("/presentations")
   const state = {
     update: false,
     key: undefined,
     cursor: 0,
-    size: mdl.CurrentPresentation.slideShow().length,
-    contents: pluck("content", mdl.CurrentPresentation.slideShow()),
+    size: mdl.CurrentPresentation.slideShow.length || 0,
+    contents: pluck("content", mdl.CurrentPresentation.slideShow) || 0,
   }
 
   const calcStatePosition = (x) =>
@@ -58,7 +60,7 @@ const SlideShow = ({ attrs: { mdl } }) => {
     oninit: (state.slide = state.contents[state.cursor]),
     view: ({ attrs: { mdl } }) =>
       m(
-        ".slideshow#slideshow right",
+        ".slideshow#slideshow",
         {
           tabindex: 0,
           onkeyup: ({ key, target }) => {
@@ -85,7 +87,14 @@ const SlideShow = ({ attrs: { mdl } }) => {
             },
             onbeforeupdate: () =>
               !["ArrowUp", "ArrowDown"].includes(state.key) && state.update,
-            onupdate: ({ dom }) => animateEntranceRight({ dom }),
+            onupdate: ({ dom }) => {
+              animateEntranceRight({ dom })
+              dom.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+                inline: "start",
+              })
+            },
           },
           m.trust(mdl.markup.render(state.contents[state.cursor] || ENDING))
         )

@@ -14,6 +14,14 @@ if (sessionStorage.getItem("code")) {
 const makeRoutes = (mdl) => {
   return {
     "/presentations": {
+      onmatch: () => {
+        mdl.CurrentPresentation = {
+          title: "",
+          id: "",
+          slideShow: [],
+          Slides: [],
+        }
+      },
       render: () => m(Layout, { mdl }, m(Presentations, { mdl })),
     },
     "/presentation/:id/slides": {
@@ -24,9 +32,6 @@ const makeRoutes = (mdl) => {
       render: () => m(Layout, { mdl }, m(Editor, { mdl })),
     },
     "/slideshow/:id": {
-      onmatch: ({ id }) =>
-        mdl.CurrentPresentation.Slides.length == 0 &&
-        m.route.set(`/presentation/${id}/slides`),
       render: () => m(Layout, { mdl }, m(SlideShow, { mdl })),
     },
   }

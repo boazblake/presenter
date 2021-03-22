@@ -69,7 +69,7 @@ const SlideShowStruct = {
 const CurrentPresentation = {
   title: "",
   id: "",
-  slideShow: Stream([]),
+  slideShow: [],
   Slides,
 }
 
