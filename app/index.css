@@ -6,16 +6,32 @@
 @import url("./animations.css");
 @import url('highlight.js/styles/shades-of-purple.css');
 
+*, *::before, *::after{
+  box-sizing: border-box;
+  -moz-box-sizing: border-box; /* Firefox */
+  -webkit-box-sizing: border-box; /* Safari, Chrome */
+}
+
 .clarity {
   width: 0.8rem;
   margin-right: 30px;
 }
+
+.clarity:hover > *{
+    cursor: pointer;
+    transform: scale(1.1);
+    fill: #0892d0;
+  }
 
 @media print {
    #slidecard {
       height: 100% !important;
       width: 100% !important;
       display: inline-block;
+  }
+
+  #slidecard > * {
+    border: 1px solid aqua;
   }
 }
 
@@ -69,8 +85,6 @@ code {
   border-radius: 4px;
 }
 
-
-
 blockquote {
   padding: 10px 20px;
   margin: 0 0 20px;
@@ -78,8 +92,12 @@ blockquote {
   border-left: 5px solid #eee;
 }
 
-.hljs {
-  font-size: 1.17rem;
+.hljs  {
+    display: block;
+    overflow-x: auto;
+    padding: .5em;
+    background: #2d2b57;
+    font-weight: 400;
 }
 
 .full-width {

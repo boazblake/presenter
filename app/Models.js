@@ -82,7 +82,10 @@ const getProfile = (w) => {
 const caputerScreen = () => {
   let w = window.open()
   let c = document.cloneNode(document)
-  w.document.body.appendChild(c.getElementById("slidecard"))
+  let card = c.getElementById("slidecard")
+  let styles = card.stylesheet
+  w.document.body.appendChild(card)
+  w.document.body.style = styles
   w.print()
   w.close()
 }

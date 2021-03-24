@@ -85,15 +85,16 @@ const toPresentations = [
 ]
 
 const toSlides = (mdl) => [
-  m(
-    m.route.Link,
-    {
-      selector: "a",
-      class: "btn btn-link",
-      href: `/presentation/${mdl.CurrentPresentation.id}/slides`,
-    },
-    "slides"
-  ),
+  mdl.isLoggedIn &&
+    m(
+      m.route.Link,
+      {
+        selector: "a",
+        class: "btn btn-link",
+        href: `/presentation/${mdl.CurrentPresentation.id}/slides`,
+      },
+      "slides"
+    ),
 ]
 
 const toSlideShow = (mdl) =>
