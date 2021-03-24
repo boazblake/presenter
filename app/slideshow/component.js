@@ -86,11 +86,11 @@ const SlideShow = ({ attrs: { mdl } }) => {
             onbeforeupdate: () =>
               !["ArrowUp", "ArrowDown"].includes(state.key) && state.update,
             onupdate: ({ dom }) => {
-              animateEntranceRight({ dom })
               dom.scrollIntoView({
                 block: "start",
                 inline: "start",
               })
+              animateEntranceRight({ dom })
             },
           },
           m.trust(mdl.markup.render(state.contents[state.cursor] || ENDING))
