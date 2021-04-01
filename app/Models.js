@@ -36,7 +36,7 @@ const markup = new MarkdownIt({
   // Highlighter function. Should return escaped HTML,
   // or '' if the source string is not changed and should be escaped externally.
   // If result starts with <pre... internal wrapper is skipped.
-  highlight: (str, lang) => str,
+  // highlight: (str, language) => ,
 })
   .use(highlightjs, { hljs })
   .use(emoji)

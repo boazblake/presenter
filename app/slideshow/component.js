@@ -2,18 +2,32 @@ import m from "mithril"
 import { pluck } from "ramda"
 import { animateEntranceRight } from "utils"
 
-const ENDING = `<div class="endingContainer">
-<h1 class="endingTitle">THE END!</h1>
-<img class="endingImg" id="ending" src="https://imgur.com/uj15GJp.gif" width="100%" />
-</div>
-`
+const Ending = {
+  view: () =>
+    m(
+      ".endingContainer",
+      m("h1.endingTitle", "THE END!"),
+      m("img.endingImg", {
+        id: "ending",
+        src: "https://imgur.com/uj15GJp.gif",
+        width: "100%",
+      })
+    ),
+}
+
+const updateCursor = (state, pageX) => {
+  state.class =
+    (pageX / window.innerWidth) * 100 > 50 ? "point-right" : "point-left"
+}
 
 const SlideShow = ({ attrs: { mdl } }) => {
   if (!mdl.CurrentPresentation.id) m.route.set("/presentations")
   const state = {
     update: false,
     key: undefined,
-    cursor: 0,
+    current: 0,
+    class: "",
+
     size: mdl.CurrentPresentation.slideShow.length || 0,
     contents: pluck("content", mdl.CurrentPresentation.slideShow) || 0,
   }
@@ -25,15 +39,15 @@ const SlideShow = ({ attrs: { mdl } }) => {
     (state.key = calcStatePosition(x) == "right" ? "ArrowRight" : "ArrowLeft")
 
   const nextSlide = () => {
-    if (state.cursor == state.size - 1) state.contents[state.cursor] = ENDING
+    if (state.current == state.size - 1) state.contents[state.current] = ""
     else {
-      state.cursor++
+      state.current++
     }
     return state
   }
 
   const prevSlide = () => {
-    state.cursor == 0 ? state.cursor : state.cursor--
+    state.current == 0 ? state.current : state.current--
   }
 
   const changeSlide = (key, target) => {
@@ -55,16 +69,21 @@ const SlideShow = ({ attrs: { mdl } }) => {
 
   return {
     dir: state.key,
-    oninit: (state.slide = state.contents[state.cursor]),
+    oninit: (state.slide = state.contents[state.current]),
     view: ({ attrs: { mdl } }) =>
       m(
         ".slideshow#slideshow",
         {
+          class: state.class,
           tabindex: 0,
           onkeyup: ({ key, target }) => {
             state.update = true
             state.key = key
             changeSlide(key, target)
+          },
+          onmousemove: ({ pageX }) => {
+            state.update = false
+            updateCursor(state, pageX)
           },
           onclick: ({ x, target }) => {
             state.update = true
@@ -75,14 +94,6 @@ const SlideShow = ({ attrs: { mdl } }) => {
         m(
           ".slidecard#slidecard",
           {
-            onmouseenter: ({ x, target }) => {
-              state.update = false
-              target.style.cursor = calcStatePosition(x)
-            },
-            onmouseleave: ({ x, target }) => {
-              state.update = false
-              ;(target.style.cursor = calcStatePosition(x)), target
-            },
             onbeforeupdate: () =>
               !["ArrowUp", "ArrowDown"].includes(state.key) && state.update,
             onupdate: ({ dom }) => {
@@ -93,7 +104,9 @@ const SlideShow = ({ attrs: { mdl } }) => {
               animateEntranceRight({ dom })
             },
           },
-          m.trust(mdl.markup.render(state.contents[state.cursor] || ENDING))
+          state.contents[state.current]
+            ? m.trust(mdl.markup.render(state.contents[state.current]))
+            : m(Ending)
         )
       ),
   }
