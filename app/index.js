@@ -5,7 +5,7 @@ import Presentations from "./presentations/component.js"
 import Slides from "./slides/component.js"
 import Editor from "./editor/component.js"
 import SlideShow from "./slideshow/component.js"
-import Models from "./models.js"
+import Models from "./Models.js"
 
 if (sessionStorage.getItem("code")) {
   Models.isLoggedIn = true

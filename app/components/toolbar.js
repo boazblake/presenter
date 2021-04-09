@@ -116,7 +116,10 @@ const printToPDF = (mdl) =>
     {
       selector: "a",
       class: "btn btn-link",
-      onclick: (e) => mdl.caputerScreen(),
+      onclick: (e) => {
+        e.preventDefault()
+        mdl.caputerScreen()
+      },
     },
     "Print Slide"
   )
