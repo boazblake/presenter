@@ -15,11 +15,6 @@ const Ending = {
     ),
 }
 
-const updateCursor = (state, pageX) => {
-  state.class =
-    (pageX / window.innerWidth) * 100 > 50 ? "point-right" : "point-left"
-}
-
 const SlideShow = ({ attrs: { mdl } }) => {
   if (!mdl.CurrentPresentation.id) m.route.set("/presentations")
   const state = {
@@ -31,12 +26,6 @@ const SlideShow = ({ attrs: { mdl } }) => {
     size: mdl.CurrentPresentation.slideShow.length || 0,
     contents: pluck("content", mdl.CurrentPresentation.slideShow) || 0,
   }
-
-  const calcStatePosition = (x) =>
-    x > window.innerWidth / 2 ? "right" : "left"
-
-  const updateStatePosition = (x, state) =>
-    (state.key = calcStatePosition(x) == "right" ? "ArrowRight" : "ArrowLeft")
 
   const nextSlide = () => {
     if (state.current == state.size - 1) state.contents[state.current] = ""
@@ -81,13 +70,8 @@ const SlideShow = ({ attrs: { mdl } }) => {
             state.key = key
             changeSlide(key, target)
           },
-          onmousemove: ({ pageX }) => {
-            state.update = false
-            updateCursor(state, pageX)
-          },
           onclick: ({ x, target }) => {
             state.update = true
-            updateStatePosition(x, state)
             return changeSlide(state.key, target)
           },
         },
