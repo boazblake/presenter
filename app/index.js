@@ -25,6 +25,7 @@ const makeRoutes = (mdl) => {
       render: () => m(Layout, { mdl }, m(Presentations, { mdl })),
     },
     "/presentation/:id/slides": {
+      onmatch: () => mdl.isLoggedIn || m.route.set(m.route.get()),
       render: () => m(Layout, { mdl }, m(Slides, { mdl })),
     },
     "/edit/:pid/slide/:id": {
