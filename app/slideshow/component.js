@@ -38,15 +38,16 @@ const SlideShow = ({ attrs: { mdl } }) => {
   const updateStatePosition = (x, state) =>
     (state.key = calcStatePosition(x) == "right" ? "ArrowRight" : "ArrowLeft")
 
-  const nextSlide = () => {
-    if (state.current == state.size - 1) state.contents[state.current] = ""
-    else {
+  const nextSlide = (target) => {
+    if (state.current == state.size - 1) {
+      state.contents[state.current] = ""
+    } else {
       state.current++
     }
     return state
   }
 
-  const prevSlide = () => {
+  const prevSlide = (target) => {
     state.current == 0 ? state.current : state.current--
   }
 
