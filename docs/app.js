@@ -1810,10 +1810,12 @@ var SlideShow = function SlideShow(_ref) {
       state.current++;
     }
 
+    target.scroll(0, -300);
     return state;
   };
 
   var prevSlide = function prevSlide(target) {
+    target.scrollIntoView(true);
     state.current == 0 ? state.current : state.current--;
   };
 

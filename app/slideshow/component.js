@@ -44,10 +44,12 @@ const SlideShow = ({ attrs: { mdl } }) => {
     } else {
       state.current++
     }
+    target.scroll(0, -300)
     return state
   }
 
   const prevSlide = (target) => {
+    target.scrollIntoView(true)
     state.current == 0 ? state.current : state.current--
   }
 
