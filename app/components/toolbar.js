@@ -40,6 +40,18 @@ const AuthModal = ({ attrs: { mdl } }) => {
   }
 }
 
+const restart = (mdl) =>
+  m(
+    "a.btn.btn-link",
+    {
+      onclick: (e) => {
+        e.target.dispatchEvent(new Event("restart-presentation"), "shit")
+        console.log(new Event("restart-presentation"))
+      },
+    },
+    "restart"
+  )
+
 const login = (mdl) =>
   mdl.isLoggedIn
     ? m(
@@ -156,7 +168,7 @@ const actionView = (mdl) => {
       return [login(mdl), toggleModalSwitch(mdl)]
       break
     case "slideshow":
-      return [login(mdl), printToPDF(mdl)]
+      return [restart(mdl), login(mdl), printToPDF(mdl)]
       break
     default:
   }

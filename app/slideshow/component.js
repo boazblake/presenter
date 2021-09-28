@@ -72,6 +72,12 @@ const SlideShow = ({ attrs: { mdl } }) => {
 
   return {
     dir: state.key,
+    oncreate: ({ dom }) => {
+      dom.addEventListener("restart-presentation", (x) => {
+        state.update = true
+        console.log("damkn irt workd", x)
+      })
+    },
     oninit: (state.slide = state.contents[state.current]),
     view: ({ attrs: { mdl } }) =>
       m(
