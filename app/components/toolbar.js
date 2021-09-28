@@ -44,10 +44,8 @@ const restart = (mdl) =>
   m(
     "a.btn.btn-link",
     {
-      onclick: (e) => {
-        e.target.dispatchEvent(new Event("restart-presentation"), "shit")
-        console.log(new Event("restart-presentation"))
-      },
+      onclick: () =>
+        document.dispatchEvent(new Event("restart-presentation"), "shit"),
     },
     "restart"
   )
@@ -174,11 +172,33 @@ const actionView = (mdl) => {
   }
 }
 
+const style = (state) => {
+  let opacity =
+    m.route.get().split("/").includes("slideshow") && state.show ? 1 : 0
+
+  return {
+    opacity,
+  }
+}
+
 const Toolbar = ({ attrs: { mdl } }) => {
+  const state = {
+    show: true,
+  }
+
   return {
     view: ({ attrs: { mdl } }) =>
       m(
-        ".navbar",
+        "#toolbar.navbar",
+        {
+          onmouseover: () => {
+            state.show = true
+          },
+          onmouseout: () => {
+            state.show = false
+          },
+          style: style(state),
+        },
         m(".navbar-section", navView(mdl)),
         m(".navbar-section", actionView(mdl)),
         mdl.modals.auth && m(AuthModal, { mdl })
