@@ -1,5 +1,5 @@
 import m from "mithril"
-import { pluck } from "ramda"
+import { pluck, sortBy, prop, lt, propEq } from "ramda"
 import { animateEntranceRight } from "utils"
 import { loadSlides } from "../slides/model"
 
@@ -84,10 +84,15 @@ const SlideShow = ({ attrs: { mdl } }) => {
       }
       const onSuccess = (x) => {
         mdl.CurrentPresentation = x
-        console.log("state", state, mdl.CurrentPresentation)
         state.current = 0
         state.size = mdl.CurrentPresentation.Slides.length || 0
-        state.contents = pluck("content", mdl.CurrentPresentation.Slides) || 0
+        state.contents = pluck(
+          "content",
+          sortBy(prop("order"), mdl.CurrentPresentation.Slides).filter(
+            (x) => x.order > 0
+          )
+        )
+
         document.dispatchEvent(new Event("restart-presentation"))
       }
       state.contents.length > 0
