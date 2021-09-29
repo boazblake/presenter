@@ -35,6 +35,7 @@ const makeRoutes = (mdl) => {
     "/slideshow/:id": {
       onmatch: (a, b, c, d, e, f) => {
         console.log("matched", a, b, c, d, e, f)
+        mdl.CurrentPresentation.id = a.id
       },
       render: () => m(Layout, { mdl }, m(SlideShow, { mdl })),
     },
